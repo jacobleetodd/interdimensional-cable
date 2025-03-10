@@ -1,0 +1,6 @@
+fragment Info on Info {
+    count
+    next
+    pages
+    prev
+}

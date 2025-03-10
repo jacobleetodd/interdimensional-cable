@@ -1,0 +1,12 @@
+- MUI Theme
+- Move functions to utils and type-guards
+- Tests
+- Fetch more on tables?
+- MSW
+- Suspense fallback (added but doesn't show)
+- Character (add more details)
+- Create character? There's no mutation but I can set up a form
+- Episodes
+- Episode
+- Location
+- Locations

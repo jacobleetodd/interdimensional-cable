@@ -1,0 +1,12 @@
+---
+extends:
+  - stylelint-config-recommended
+  - stylelint-config-concentric-order
+  - stylelint-prettier/recommended
+customSyntax: "@stylelint/postcss-css-in-js"
+rules:
+  length-zero-no-unit: true
+  named-grid-areas-no-invalid: null
+  no-empty-source: null
+  unit-disallowed-list:
+    - em

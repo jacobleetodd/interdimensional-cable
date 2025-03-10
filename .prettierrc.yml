@@ -1,0 +1,10 @@
+plugins:
+  - "@trivago/prettier-plugin-sort-imports"
+  - prettier-plugin-packagejson
+  - prettier-plugin-sh
+importOrder:
+  - ^[^.]
+  - ^[.]
+importOrderCaseInsensitive: true
+importOrderSortSpecifiers: true
+printWidth: 120

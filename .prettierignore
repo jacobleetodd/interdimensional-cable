@@ -1,0 +1,6 @@
+*.generated.*
+coverage
+dist
+pnpm-lock.yaml
+public/mockServiceWorker.js
+reports

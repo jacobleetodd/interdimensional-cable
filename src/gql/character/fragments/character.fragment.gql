@@ -1,0 +1,18 @@
+fragment Character on Character {
+  created
+  episode {
+    ...Episode
+  }
+  gender
+  id
+  location {
+    ...Location
+  }
+  name
+  origin {
+    ...Location
+  }
+  species
+  status
+  type
+}

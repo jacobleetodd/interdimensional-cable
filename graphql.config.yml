@@ -1,0 +1,94 @@
+#
+# graphql config used for IDE support
+#
+# see: https://the-guild.dev/graphql/config
+#
+
+projects:
+  #
+  # generates TS code from local schema files
+  #
+  # see: https://the-guild.dev/graphql/codegen
+  #
+  default:
+    schema: ./schema.graphql
+    documents:
+      - ./src/gql/**/*.gql
+    extensions:
+      codegen:
+        generates:
+          ./src/models/apollo-helpers.generated.ts:
+            plugins:
+              # https://the-guild.dev/graphql/codegen/plugins/typescript/typescript-apollo-client-helpers
+              - typescript-apollo-client-helpers
+
+          ./src/models/graphql-types.generated.ts:
+            config:
+              defaultScalarType: unknown
+              nonOptionalTypename: true
+              preResolveTypes: false
+              scalars:
+                BigInt: number
+                Date: string
+                DateTime: string
+                JSON: Record<string, unknown> | Array<unknown> | string | number | boolean
+                JSONObject: any
+                Long: number
+                PositiveInt: number
+                Url: string
+                UUID: string
+                Void: void
+                Upload: upload
+              strictScalars: true
+              useConsts: true
+            plugins:
+              # https://the-guild.dev/graphql/codegen/plugins/typescript/typescript
+              - typescript
+              # https://the-guild.dev/graphql/codegen/plugins/typescript/named-operations-object
+              - named-operations-object
+
+          ./src/gql/:
+            config:
+              gqlImport: graphql.macro#gql
+              inlineFragmentTypes: combine
+              nonOptionalTypename: true
+              preResolveTypes: false
+              skipTypeNameForRoot: true
+              withHooks: true
+              withMutationFn: true
+              withRefetchFn: true
+            # https://the-guild.dev/graphql/codegen/plugins/presets/near-operation-file-preset
+            preset: near-operation-file
+            presetConfig:
+              extension: .generated.ts
+              baseTypesPath: ../models/graphql-types.generated.ts
+            plugins:
+              # https://the-guild.dev/graphql/codegen/plugins/other/add
+              - add:
+                  content:
+                    - /* eslint-disable */
+                    - // @ts-nocheck
+              # https://the-guild.dev/graphql/codegen/plugins/typescript/typescript-msw
+              - typescript-msw
+              # https://the-guild.dev/graphql/codegen/plugins/typescript/typescript-operations
+              - typescript-operations
+              # https://the-guild.dev/graphql/codegen/plugins/typescript/typescript-react-apollo
+              - typescript-react-apollo
+
+  #
+  # writes a schema file from the dev endpoint
+  #
+  # see: https://the-guild.dev/graphql/codegen
+  #
+  schema:
+    schema: https://rickandmortyapi.com/graphql
+    extensions:
+      codegen:
+        hooks:
+          afterAllFileWrite:
+            - prettier --write
+        generates:
+          ./schema.graphql:
+            plugins:
+              # https://the-guild.dev/graphql/codegen/plugins/other/schema-ast
+              - schema-ast
