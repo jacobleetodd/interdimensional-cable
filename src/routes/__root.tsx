@@ -1,9 +1,9 @@
 import { ApolloProvider } from "@apollo/client";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import React, { Suspense } from "react";
 import { client } from "../../client";
-import { PageLoading } from "../components/PageLoading";
+import { PageLoading } from "../components/atoms/PageLoading";
 import { Template } from "../templates/Template";
 import DefaultThemeProvider from "../theme/DefaultThemeProvider";
 

@@ -1,14 +1,16 @@
-import { CircularProgress, ImageList, ImageListItem, Paper, Stack, Typography } from "@mui/material";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ImageList, ImageListItem, Paper, Stack, Typography } from "@mui/material";
+import { createFileRoute } from "@tanstack/react-router";
 import * as React from "react";
 import { useCharactersSuspenseQuery } from "../gql/character/queries/characters.query.generated";
+import { getRandomInt } from "../utilities";
+import { Route as CharacterRoute } from "./characters/$characterId";
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
 });
 
 function HomeComponent() {
-  const navigate = useNavigate();
+  const navigate = Route.useNavigate();
 
   const { data } = useCharactersSuspenseQuery();
 
@@ -17,13 +19,6 @@ function HomeComponent() {
   const count = info?.count ?? 0;
 
   const imageCount = Array.from({ length: 9 }, (_, i) => i + 1);
-
-  // TODO: util
-  function getRandomInt(min: number, max: number) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
 
   return (
     <Stack alignItems="center" height="100%" spacing={2}>
@@ -38,7 +33,8 @@ function HomeComponent() {
                   alt={`Rick and Morty Image ${randomInt}`}
                   onClick={() =>
                     navigate({
-                      to: `/character/${randomInt}`,
+                      to: CharacterRoute.to,
+                      params: { characterId: randomInt.toString() },
                     })
                   }
                   src={`https://rickandmortyapi.com/api/character/avatar/${randomInt}.jpeg`}

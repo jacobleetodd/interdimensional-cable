@@ -1,0 +1,15 @@
+- Move functions to utils and type-guards
+- Debounce text search
+- Tests
+- Fetch more on tables?
+- MSW
+- Suspense fallback (added but doesn't show)
+- Character (add links)
+- Create character? There's no mutation but I can set up a form
+- Episodes
+- Episode
+- Location
+- Locations
+- Add pagination to characters state so it loads when you go back
+- Refactor components out of routes (all done except Home)
+- Expand episode and location gql fragments so there are on character versions and full versions

@@ -1,7 +1,8 @@
 import { DataGrid, DataGridProps, GridColDef, GridEventListener } from "@mui/x-data-grid";
-import { useNavigate } from "@tanstack/react-router";
 import { FC, useMemo } from "react";
-import { CharacterFragment } from "../gql/character/fragments/character.fragment.generated";
+import { CharacterFragment } from "../../gql/character/fragments/character.fragment.generated";
+import { Route as CharacterRoute } from "../../routes/characters/$characterId";
+import { Route as CharactersRoute } from "../../routes/characters/index";
 
 interface TableCharactersProps {
   characters: CharacterFragment[];
@@ -18,7 +19,7 @@ export const TableCharacters: FC<TableCharactersProps> = ({
   paginationModel,
   rowCount,
 }) => {
-  const navigate = useNavigate();
+  const navigate = CharactersRoute.useNavigate();
 
   const columns: GridColDef<CharacterFragment>[] = useMemo(
     () => [
@@ -31,7 +32,8 @@ export const TableCharacters: FC<TableCharactersProps> = ({
 
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
     navigate({
-      to: `/character/${params.id}`,
+      to: CharacterRoute.to,
+      params: { characterId: params.row.id },
     });
   };
 
@@ -44,6 +46,7 @@ export const TableCharacters: FC<TableCharactersProps> = ({
       onRowClick={handleRowClick}
       paginationMode="server"
       paginationModel={paginationModel}
+      pageSizeOptions={[20]}
       rows={characters}
       rowCount={rowCount}
     />

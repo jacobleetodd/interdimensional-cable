@@ -204,7 +204,8 @@ export type QueryLocationsByIdsArgs = {
 export const namedOperations = {
   Query: {
     Character: 'Character' as const,
-    Characters: 'Characters' as const
+    Characters: 'Characters' as const,
+    Episodes: 'Episodes' as const
   },
   Fragment: {
     Character: 'Character' as const,

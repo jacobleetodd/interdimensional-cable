@@ -1,28 +1,26 @@
 import { Stack, TextField, Typography } from "@mui/material";
 import { DataGridProps } from "@mui/x-data-grid";
-import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useRef, useState } from "react";
-import { TableCharacters } from "../components/TableCharacters";
-import { useCharactersQuery } from "../gql/character/queries/characters.query.generated";
+import { FC, useMemo, useRef, useState } from "react";
+import { useEpisodesQuery } from "../../gql/episode/queries/episodes.generated";
+import { Route as EpisodesRoute } from "../../routes/episodes/index";
+import { removeFalseyFromArray } from "../../utilities";
+import { TableEpisodes } from "../molecules/TableEpisodes";
 
-export const Route = createFileRoute("/characters")({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
+export const Episodes: FC = () => {
+  const navigate = EpisodesRoute.useNavigate();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [paginationModel, setPaginationModel] = useState<DataGridProps["paginationModel"]>({
     page: 0,
     pageSize: 20,
   });
 
-  const { data, loading } = useCharactersQuery({
-    variables: { filter: { name: searchTerm }, page: paginationModel?.page },
+  const { data, loading } = useEpisodesQuery({
+    variables: { filter: { name: searchTerm }, page: (paginationModel?.page ?? 0) + 1 },
   });
 
-  const results = data?.characters?.results ?? [];
+  const results = data?.episodes?.results ?? [];
 
-  const info = data?.characters?.info;
+  const info = data?.episodes?.info;
 
   const rowCountRef = useRef(info?.count ?? 0);
 
@@ -33,19 +31,23 @@ function RouteComponent() {
     return rowCountRef.current;
   }, [info?.count]);
 
-  // TODO: type guard or util
-  const characters = results.filter((character) => character !== undefined && character !== null);
+  const episodes = removeFalseyFromArray(results);
 
   const handlePageChange = (params: DataGridProps["paginationModel"]) => {
     setPaginationModel(params);
+    navigate({
+      search: {
+        paginationModel: JSON.stringify(params),
+      },
+    });
   };
 
   return (
     <Stack height="100%" spacing={2}>
-      <Typography variant="h4">Characters</Typography>
+      <Typography variant="h4">Episodes</Typography>
       <TextField onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search by name..." value={searchTerm} />
-      <TableCharacters
-        characters={characters}
+      <TableEpisodes
+        episodes={episodes}
         handlePageChange={handlePageChange}
         loading={loading}
         paginationModel={paginationModel}
@@ -53,4 +55,4 @@ function RouteComponent() {
       />
     </Stack>
   );
-}
+};

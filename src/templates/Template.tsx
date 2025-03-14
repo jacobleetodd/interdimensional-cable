@@ -1,6 +1,8 @@
-import { Grid2, List, ListItem, ListItemButton, Stack, Typography } from "@mui/material";
+import { Grid2, List, ListItem, ListItemButton, Typography } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { FC, PropsWithChildren } from "react";
+import { Route as CharactersRoute } from "../routes/characters/index";
+import { Route as EpisodesRoute } from "../routes/episodes/index";
 
 export const Template: FC<PropsWithChildren> = ({ children }) => (
   <Grid2 container height="100%">
@@ -26,13 +28,22 @@ export const Template: FC<PropsWithChildren> = ({ children }) => (
           Home
         </ListItemButton>
         <ListItemButton
-          activeOptions={{ exact: true }}
+          activeOptions={{ includeSearch: true }}
           activeProps={{ className: "font-bold" }}
           component={Link}
           sx={{ color: "common.white" }}
-          to="/characters"
+          to={CharactersRoute.to}
         >
           Characters
+        </ListItemButton>
+        <ListItemButton
+          activeOptions={{ includeSearch: true }}
+          activeProps={{ className: "font-bold" }}
+          component={Link}
+          sx={{ color: "common.white" }}
+          to={EpisodesRoute.to}
+        >
+          Episodes
         </ListItemButton>
       </List>
     </Grid2>

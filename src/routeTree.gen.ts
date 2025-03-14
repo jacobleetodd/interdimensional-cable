@@ -11,17 +11,13 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as CharactersImport } from './routes/characters'
 import { Route as IndexImport } from './routes/index'
-import { Route as CharacterCharacterIdImport } from './routes/character/$characterId'
+import { Route as EpisodesIndexImport } from './routes/episodes/index'
+import { Route as CharactersIndexImport } from './routes/characters/index'
+import { Route as EpisodesEpisodeIdImport } from './routes/episodes/$episodeId'
+import { Route as CharactersCharacterIdImport } from './routes/characters/$characterId'
 
 // Create/Update Routes
-
-const CharactersRoute = CharactersImport.update({
-  id: '/characters',
-  path: '/characters',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -29,9 +25,27 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const CharacterCharacterIdRoute = CharacterCharacterIdImport.update({
-  id: '/character/$characterId',
-  path: '/character/$characterId',
+const EpisodesIndexRoute = EpisodesIndexImport.update({
+  id: '/episodes/',
+  path: '/episodes/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CharactersIndexRoute = CharactersIndexImport.update({
+  id: '/characters/',
+  path: '/characters/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EpisodesEpisodeIdRoute = EpisodesEpisodeIdImport.update({
+  id: '/episodes/$episodeId',
+  path: '/episodes/$episodeId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CharactersCharacterIdRoute = CharactersCharacterIdImport.update({
+  id: '/characters/$characterId',
+  path: '/characters/$characterId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,18 +60,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/characters': {
-      id: '/characters'
-      path: '/characters'
-      fullPath: '/characters'
-      preLoaderRoute: typeof CharactersImport
+    '/characters/$characterId': {
+      id: '/characters/$characterId'
+      path: '/characters/$characterId'
+      fullPath: '/characters/$characterId'
+      preLoaderRoute: typeof CharactersCharacterIdImport
       parentRoute: typeof rootRoute
     }
-    '/character/$characterId': {
-      id: '/character/$characterId'
-      path: '/character/$characterId'
-      fullPath: '/character/$characterId'
-      preLoaderRoute: typeof CharacterCharacterIdImport
+    '/episodes/$episodeId': {
+      id: '/episodes/$episodeId'
+      path: '/episodes/$episodeId'
+      fullPath: '/episodes/$episodeId'
+      preLoaderRoute: typeof EpisodesEpisodeIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/characters/': {
+      id: '/characters/'
+      path: '/characters'
+      fullPath: '/characters'
+      preLoaderRoute: typeof CharactersIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/episodes/': {
+      id: '/episodes/'
+      path: '/episodes'
+      fullPath: '/episodes'
+      preLoaderRoute: typeof EpisodesIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -67,42 +95,68 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/characters': typeof CharactersRoute
-  '/character/$characterId': typeof CharacterCharacterIdRoute
+  '/characters/$characterId': typeof CharactersCharacterIdRoute
+  '/episodes/$episodeId': typeof EpisodesEpisodeIdRoute
+  '/characters': typeof CharactersIndexRoute
+  '/episodes': typeof EpisodesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/characters': typeof CharactersRoute
-  '/character/$characterId': typeof CharacterCharacterIdRoute
+  '/characters/$characterId': typeof CharactersCharacterIdRoute
+  '/episodes/$episodeId': typeof EpisodesEpisodeIdRoute
+  '/characters': typeof CharactersIndexRoute
+  '/episodes': typeof EpisodesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/characters': typeof CharactersRoute
-  '/character/$characterId': typeof CharacterCharacterIdRoute
+  '/characters/$characterId': typeof CharactersCharacterIdRoute
+  '/episodes/$episodeId': typeof EpisodesEpisodeIdRoute
+  '/characters/': typeof CharactersIndexRoute
+  '/episodes/': typeof EpisodesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/characters' | '/character/$characterId'
+  fullPaths:
+    | '/'
+    | '/characters/$characterId'
+    | '/episodes/$episodeId'
+    | '/characters'
+    | '/episodes'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/characters' | '/character/$characterId'
-  id: '__root__' | '/' | '/characters' | '/character/$characterId'
+  to:
+    | '/'
+    | '/characters/$characterId'
+    | '/episodes/$episodeId'
+    | '/characters'
+    | '/episodes'
+  id:
+    | '__root__'
+    | '/'
+    | '/characters/$characterId'
+    | '/episodes/$episodeId'
+    | '/characters/'
+    | '/episodes/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CharactersRoute: typeof CharactersRoute
-  CharacterCharacterIdRoute: typeof CharacterCharacterIdRoute
+  CharactersCharacterIdRoute: typeof CharactersCharacterIdRoute
+  EpisodesEpisodeIdRoute: typeof EpisodesEpisodeIdRoute
+  CharactersIndexRoute: typeof CharactersIndexRoute
+  EpisodesIndexRoute: typeof EpisodesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CharactersRoute: CharactersRoute,
-  CharacterCharacterIdRoute: CharacterCharacterIdRoute,
+  CharactersCharacterIdRoute: CharactersCharacterIdRoute,
+  EpisodesEpisodeIdRoute: EpisodesEpisodeIdRoute,
+  CharactersIndexRoute: CharactersIndexRoute,
+  EpisodesIndexRoute: EpisodesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -116,18 +170,26 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/characters",
-        "/character/$characterId"
+        "/characters/$characterId",
+        "/episodes/$episodeId",
+        "/characters/",
+        "/episodes/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/characters": {
-      "filePath": "characters.tsx"
+    "/characters/$characterId": {
+      "filePath": "characters/$characterId.tsx"
     },
-    "/character/$characterId": {
-      "filePath": "character/$characterId.tsx"
+    "/episodes/$episodeId": {
+      "filePath": "episodes/$episodeId.tsx"
+    },
+    "/characters/": {
+      "filePath": "characters/index.tsx"
+    },
+    "/episodes/": {
+      "filePath": "episodes/index.tsx"
     }
   }
 }

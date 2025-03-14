@@ -1,28 +1,8 @@
-import { alpha, PaletteColorOptions, ThemeOptions } from "@mui/material";
-
-declare module "@mui/material/styles" {
-  interface Palette {
-    inverted: PaletteColor;
-    neutral: PaletteColor;
-  }
-  interface PaletteColor {
-    lighter?: string;
-  }
-
-  interface PaletteOptions {
-    inverted?: PaletteColorOptions;
-    neutral?: PaletteColorOptions;
-  }
-
-  interface SimplePaletteColorOptions {
-    lighter?: string;
-  }
-}
+import { alpha, ThemeOptions } from "@mui/material";
 
 export const paletteTheme: ThemeOptions = {
   palette: {
     primary: {
-      lighter: alpha("#3B75D1", 0.08),
       light: "#91B3EB",
       main: "#3B75D1",
       dark: "#1E4C94",
@@ -55,18 +35,6 @@ export const paletteTheme: ThemeOptions = {
       light: "#72D66F",
       main: "#20891C",
       dark: "#10610E",
-    },
-    inverted: {
-      light: "#FFFFFF",
-      main: "#FFFFFF",
-      dark: "#D9D9D9",
-      contrastText: alpha("#000000", 0.87),
-    },
-    neutral: {
-      light: "#939393",
-      main: "#4F4F4F",
-      dark: "#292929",
-      contrastText: "#FFFFFF",
     },
     background: {
       default: "#F6F6F6",
